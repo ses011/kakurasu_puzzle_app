@@ -34,11 +34,24 @@ class Puzzle {
 
     // Get row and column totals
     List<int> rowSums = [];
+    List<int> colSums = [];
     for (int i = 0; i < scale; i++) {
-      for (bool item in puzzle[i]) {
-
+      int row = 0;
+      int col = 0;
+      for (int j = 0; j < scale; j++) {
+        if (puzzle[i][j]) {
+          row += (j + 1);
+        }
+        if (puzzle[j][i]) {
+          col += (j + 1);
+        }
       }
+      rowSums.add(row);
+      colSums.add(col);
     }
+
+    sums.add(rowSums);
+    sums.add(colSums);
   }
 
   /// makeEmptyGrid
@@ -48,6 +61,8 @@ class Puzzle {
       puzzle.add(List<bool>.filled(scale, false));
     }
   }
+
+
 }
 
 void main() {
