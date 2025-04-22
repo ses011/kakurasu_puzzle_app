@@ -62,7 +62,7 @@ class _GameStateState extends State<GameState> {
             else {
               int row = (index ~/ (puzzle.scale + 1)) - 1;
               int col = (index % (puzzle.scale + 1)) - 1;
-              print("($col, $row)");
+              // print("($col, $row)");
               return GridSpace(col, row);
             }
             

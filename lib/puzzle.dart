@@ -24,7 +24,7 @@ class Puzzle {
       int x = Random().nextInt(scale);
       int y = Random().nextInt(scale);
 
-      print("x: $x\ty: $y");
+      // print("x: $x\ty: $y");
 
       if (!puzzle[y][x]) {
         puzzle[y][x] = true;
