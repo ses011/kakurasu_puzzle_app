@@ -65,8 +65,8 @@ class Puzzle {
 
 }
 
-void main() {
-  Puzzle puzzle = Puzzle(7);
-  print(puzzle.puzzle);
-  print(puzzle.sums);
-}
+// void main() {
+//   Puzzle puzzle = Puzzle(7);
+//   print(puzzle.puzzle);
+//   print(puzzle.sums[]);
+// }
