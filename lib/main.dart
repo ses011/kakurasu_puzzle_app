@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
 
-import 'puzzle.dart';
-import 'grid_space.dart';
+// import 'puzzle.dart';
+import 'gamePage.dart';
 
 void main() {
   runApp(const MainApp());
@@ -16,58 +15,94 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(home: GameState());
+    return const MaterialApp(home: HomePage());
   }
 }
 
-class GameState extends StatefulWidget {
-  const GameState({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<GameState> createState() => _GameStateState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _GameStateState extends State<GameState> {
-  final Puzzle puzzle = Puzzle(7);
-
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: puzzle.scale + 1,
-            crossAxisSpacing: 1,
-            mainAxisSpacing: 1,
+      appBar: AppBar(),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Text("Kakurasu", textAlign: TextAlign.center),
+          Container(
+            height: 600,
+            width: MediaQuery.sizeOf(context).width,
+            child: GridView.count(
+              crossAxisSpacing: 5,
+              crossAxisCount: 2,
+              mainAxisSpacing: 5,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => GamePage()),
+                    );
+                  },
+                  child: Container(
+                    height: 100,
+                    width: 100,
+                    decoration: BoxDecoration(color: Colors.amber),
+                    child: Text("Speed"),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => GamePage()),
+                    );
+                  },
+                  child: Container(
+                    height: 100,
+                    width: 100,
+                    decoration: BoxDecoration(color: Colors.amber),
+                    child: Text("Speed"),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => GamePage()),
+                    );
+                  },
+                  child: Container(
+                    height: 100,
+                    width: 100,
+                    decoration: BoxDecoration(color: Colors.amber),
+                    child: Text("Speed"),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => GamePage()),
+                    );
+                  },
+                  child: Container(
+                    height: 100,
+                    width: 100,
+                    decoration: BoxDecoration(color: Colors.amber),
+                    child: Text("Speed"),
+                  ),
+                ),                
+              ],
+            ),
           ),
-          itemCount: pow((puzzle.scale + 1), 2).toInt(),
-          itemBuilder: (context, index) {
-            // print("index: $index");
-            // Top left corner empty
-            if (index == 0) {
-              return SizedBox();
-            }
-            // Top row; column sums
-            else if (index <= puzzle.scale) {
-              // print(puzzle.sums[1][index - 1]);
-              return SizedBox(child: Text("${puzzle.sums[1][index - 1]}"));
-            }
-            // Right column; row sums
-            else if (index % (puzzle.scale + 1) == 0) {
-              int row = (index / (puzzle.scale + 1)).toInt() - 1;
-              // print("Row: $row");
-              // print(puzzle.sums[0][row]);
-              return SizedBox(child: Text("${puzzle.sums[0][row]}"));
-            }
-            else {
-              int row = (index ~/ (puzzle.scale + 1)) - 1;
-              int col = (index % (puzzle.scale + 1)) - 1;
-              // print("($col, $row)");
-              return GridSpace(col, row);
-            }
-            
-          },
-        ),
+        ],
       ),
     );
   }

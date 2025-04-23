@@ -9,7 +9,7 @@ class Puzzle {
   Puzzle(this.scale) {
     scale = scale;
     int count = 0;
-    makeEmptyGrid();
+    puzzle = makeEmptyGrid(scale);
 
     // Gets a number so that each row or column will (in theory) have
     // [1, scale -1] number of boxes to fill
@@ -56,15 +56,18 @@ class Puzzle {
 
   /// makeEmptyGrid
   /// make puzzle a scale x scale 2D array filled with only 'false' 
-  void makeEmptyGrid() {
-    for (int i = 0; i < scale; i++) {
-      puzzle.add(List<bool>.filled(scale, false));
-    }
-  }
+  
 
 
 }
 
+List<List<bool>> makeEmptyGrid(int scale) {
+    List<List<bool>> empty = [];
+    for (int i = 0; i < scale; i++) {
+      empty.add(List<bool>.filled(scale, false));
+    }
+    return empty;
+  }
 // void main() {
 //   Puzzle puzzle = Puzzle(7);
 //   print(puzzle.puzzle);
