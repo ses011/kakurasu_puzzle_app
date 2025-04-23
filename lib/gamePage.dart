@@ -1,5 +1,6 @@
 import 'dart:async' show Timer;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
@@ -13,19 +14,65 @@ class GamePage extends StatefulWidget {
 }
 
 class _GamePageState extends State<GamePage> {
-  final Puzzle puzzle = Puzzle(7);
-  List<List<bool>> puzzleState = makeEmptyGrid(7);
+  late Puzzle puzzle;
+  late List<List<bool>> puzzleState;
   late Stopwatch stopwatch;
   late Timer t;
 
   @override
   void initState() {
     super.initState();
+    puzzle = Puzzle(7);
+    puzzleState = makeEmptyGrid(7);
+
     stopwatch = Stopwatch();
     t = Timer.periodic(Duration(milliseconds: 30), (timer) {
       setState(() {});
     });
+    
     stopwatch.start();
+  }
+
+  bool checkAccuracy() {
+    for (int row = 0; row < puzzle.puzzle.length; row++) {
+      if (!listEquals(puzzle.puzzle[row], puzzleState[row])) {
+        return false;
+      }
+    }
+
+    t.cancel();
+    stopwatch.stop();
+    return true;
+  }
+
+  AlertDialog popup() {
+    return AlertDialog(
+      title: Text("Success!"),
+      actions: [
+        GestureDetector(
+          onTap: () {
+            t.cancel();
+            stopwatch.stop();
+            initState();
+          },
+          child: Container(
+            decoration: BoxDecoration(color: Colors.amber),
+            child: Text("Play again"),
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            t.cancel();
+            stopwatch.stop();
+            Navigator.pop(context);
+          },
+          child: Container(
+            decoration: BoxDecoration(color: Colors.amber),
+            child: Text("Home"),
+          ),
+        ),
+      ],
+    );
   }
 
   @override
@@ -40,7 +87,10 @@ class _GamePageState extends State<GamePage> {
             Navigator.pop(context);
           },
         ),
-        title: Align(alignment: Alignment.centerRight, child: Text(stopwatch.elapsed.toString())),
+        title: Align(
+          alignment: Alignment.centerRight,
+          child: Text(stopwatch.elapsed.toString()),
+        ),
       ),
       body: Container(
         padding: EdgeInsets.all(30),
@@ -98,6 +148,9 @@ class _GamePageState extends State<GamePage> {
                 onTap: () {
                   setState(() {
                     puzzleState[row][col] = !puzzleState[row][col];
+                    if (checkAccuracy()) {
+                      popup();
+                    }
                   });
                 },
               );
