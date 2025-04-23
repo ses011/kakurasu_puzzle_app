@@ -15,7 +15,13 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(home: HomePage());
+    return MaterialApp(
+      home: HomePage(),
+      theme: ThemeData(
+        appBarTheme: AppBarTheme(centerTitle: false),
+        textTheme: TextTheme(displayLarge: TextStyle(color: Colors.amber)),
+      ),
+    );
   }
 }
 
@@ -32,11 +38,18 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text("Kakurasu", textAlign: TextAlign.center),
+          Text(
+            "Kakurasu",
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.displayLarge,
+          ),
+          SizedBox(height: 500),
+
           Container(
-            height: 600,
+            padding: EdgeInsets.all(10),
+            height: 100,
             width: MediaQuery.sizeOf(context).width,
             child: GridView.count(
               crossAxisSpacing: 5,
@@ -53,52 +66,28 @@ class _HomePageState extends State<HomePage> {
                   child: Container(
                     height: 100,
                     width: 100,
-                    decoration: BoxDecoration(color: Colors.amber),
-                    child: Text("Speed"),
+                    decoration: BoxDecoration(color: Colors.green),
+                    child: Text(
+                      "Speed",
+                      style: Theme.of(context).textTheme.displayMedium,
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => GamePage()),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) => GamePage()),
+                    // );
                   },
                   child: Container(
                     height: 100,
                     width: 100,
-                    decoration: BoxDecoration(color: Colors.amber),
-                    child: Text("Speed"),
+                    decoration: BoxDecoration(color: Colors.lightBlueAccent),
+                    // child: Text("Speed"),
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => GamePage()),
-                    );
-                  },
-                  child: Container(
-                    height: 100,
-                    width: 100,
-                    decoration: BoxDecoration(color: Colors.amber),
-                    child: Text("Speed"),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => GamePage()),
-                    );
-                  },
-                  child: Container(
-                    height: 100,
-                    width: 100,
-                    decoration: BoxDecoration(color: Colors.amber),
-                    child: Text("Speed"),
-                  ),
-                ),                
               ],
             ),
           ),

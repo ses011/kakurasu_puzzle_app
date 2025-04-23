@@ -1,1 +1,4 @@
 inspo for grid: https://github.com/recepsenoglu/minesweeper/blob/main/lib/view/game_view/mine_field.dart
+title alignment: https://stackoverflow.com/questions/73787209/how-to-align-the-appbar-title-to-right-in-flutter
+stopwatch display: https://stackoverflow.com/questions/73787209/how-to-align-the-appbar-title-to-right-in-flutter
+
