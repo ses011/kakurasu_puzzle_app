@@ -22,14 +22,14 @@ class _GamePageState extends State<GamePage> {
   @override
   void initState() {
     super.initState();
-    puzzle = Puzzle(7);
-    puzzleState = makeEmptyGrid(7);
+    puzzle = Puzzle(4);
+    puzzleState = makeEmptyGrid(4);
 
     stopwatch = Stopwatch();
     t = Timer.periodic(Duration(milliseconds: 30), (timer) {
       setState(() {});
     });
-    
+
     stopwatch.start();
   }
 
@@ -45,33 +45,36 @@ class _GamePageState extends State<GamePage> {
     return true;
   }
 
-  AlertDialog popup() {
-    return AlertDialog(
-      title: Text("Success!"),
-      actions: [
-        GestureDetector(
-          onTap: () {
-            t.cancel();
-            stopwatch.stop();
-            initState();
-          },
-          child: Container(
-            decoration: BoxDecoration(color: Colors.amber),
-            child: Text("Play again"),
-          ),
-        ),
-        GestureDetector(
-          onTap: () {
-            t.cancel();
-            stopwatch.stop();
-            Navigator.pop(context);
-          },
-          child: Container(
-            decoration: BoxDecoration(color: Colors.amber),
-            child: Text("Home"),
-          ),
-        ),
-      ],
+  void popup() {
+    showDialog<void>(
+      context: (context),
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Success!"),
+          actions: [
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(context); // Close popup
+                 
+              },
+              child: Container(
+                decoration: BoxDecoration(color: Colors.amber),
+                child: Text("Play again"),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(context); // Close popup
+                Navigator.pop(context); // Return home
+              },
+              child: Container(
+                decoration: BoxDecoration(color: Colors.amber),
+                child: Text("Home"),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 
