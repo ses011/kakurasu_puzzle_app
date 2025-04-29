@@ -55,7 +55,8 @@ class _GamePageState extends State<GamePage> {
             GestureDetector(
               onTap: () {
                 Navigator.pop(context); // Close popup
-                 
+                Navigator.pop(context); // Close popup
+                Navigator.push(context, MaterialPageRoute(builder: (context) => GamePage()));
               },
               child: Container(
                 decoration: BoxDecoration(color: Colors.amber),
