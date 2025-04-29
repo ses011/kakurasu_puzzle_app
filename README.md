@@ -1,3 +1,1 @@
-# kakurasu_puzzle_app
-
-A new Flutter project.
+# Kakurasu Mobile puzzle app
