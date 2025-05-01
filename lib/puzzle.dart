@@ -1,4 +1,3 @@
-
 import 'dart:math';
 
 class Puzzle {
@@ -15,8 +14,8 @@ class Puzzle {
     // [1, scale -1] number of boxes to fill
     // Theory depends on randomization but full/empty rows are ok
     for (int i = 0; i < scale; i++) {
-      count += Random().nextInt(scale - 1) + 1; 
-    }    
+      count += Random().nextInt(scale - 1) + 1;
+    }
 
     // Randomly fill puzzle array to generate the puzzle
     int squares = 0; // counter of squares filled
@@ -31,7 +30,22 @@ class Puzzle {
         squares++;
       }
     }
+  }
 
+  Puzzle.fromData(String puzzleString, this.scale) {
+    List<String> splitRows = puzzleString.split(" ");
+    for (String rowString in splitRows) {
+      List<bool> row = [];
+      List<String> splitGrid = rowString.split("");
+      for (String box in splitGrid) {
+        row.add(box == "1");
+      }
+      puzzle.add(row);
+    }
+    findSums();
+  }
+
+  void findSums() {
     // Get row and column totals
     List<int> rowSums = [];
     List<int> colSums = [];
@@ -54,22 +68,47 @@ class Puzzle {
     sums.add(colSums);
   }
 
-  /// makeEmptyGrid
-  /// make puzzle a scale x scale 2D array filled with only 'false' 
-  
+  Map<String, Object?> toMap() {
+    String puzzleString = "";
+    for (int i = 0; i < scale; i++) {
+      for (int j = 0; j < scale; j++) {
+        if (puzzle[i][j]) {
+          puzzleString += '1';
+        } else {
+          puzzleString += '0';
+        }
+      }
+      puzzleString += " ";
+    }
 
+    return {'puzzle': puzzleString, 'size': scale};
+  }
 
+  String toString() {
+    return "Puzzle size $scale";
+  }
 }
 
+/// makeEmptyGrid
+/// make puzzle a scale x scale 2D array filled with only 'false'
 List<List<bool>> makeEmptyGrid(int scale) {
-    List<List<bool>> empty = [];
-    for (int i = 0; i < scale; i++) {
-      empty.add(List<bool>.filled(scale, false));
-    }
-    return empty;
+  List<List<bool>> empty = [];
+  for (int i = 0; i < scale; i++) {
+    empty.add(List<bool>.filled(scale, false));
   }
+  return empty;
+}
+
+
 // void main() {
-//   Puzzle puzzle = Puzzle(7);
+//   Puzzle puzzle = Puzzle(6);
+
+
 //   print(puzzle.puzzle);
-//   print(puzzle.sums[]);
-// }
+//   Map<String, Object?> map = puzzle.toMap();
+//   print(map);
+
+//   Puzzle newPuzzle = Puzzle.fromData(map['puzzle'].toString(), int.parse(map['size'].toString()));
+//   print(newPuzzle.puzzle);
+  // print(puzzle.sums);
+//}
