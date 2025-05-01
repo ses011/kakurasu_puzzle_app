@@ -5,6 +5,24 @@ import 'package:flutter/widgets.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
+Future<void> insertPuzzle(Puzzle puzzle) async {
+  final db = await openDatabase(
+    join(await getDatabasesPath(), 'puzzle_database.db'),
+  );
+
+  await db.insert('Puzzles', puzzle.toMap());
+}
+
+Future<List<Map<String, Object?>>> puzzles() async {
+  final db = await openDatabase(
+    join(await getDatabasesPath(), 'puzzle_database.db'),
+  );
+
+  final List<Map<String, Object?>> puzzleMaps = await db.query('Puzzles');
+
+  return [for (Map<String, Object?> puzzle in puzzleMaps) puzzle];
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -21,32 +39,9 @@ void main() async {
     },
   );
 
-
-
-  Future<void> insertPuzzle(Puzzle puzzle) async {
-    final db = await database;
-
-    await db.insert('Puzzles', puzzle.toMap());
-  }
-
-  Future<List<Puzzle>> puzzles() async {
-    final db = await database;
-
-    final List<Map<String, Object?>> puzzleMaps = await db.query('Puzzles');
-
-    return [
-      for (final {'puzzle': puzzle as String, 'size': size as int}
-          in puzzleMaps)
-        Puzzle.fromData(puzzle, size),
-    ];
-  }
-
   await insertPuzzle(Puzzle(7));
-  List<Puzzle> results = await puzzles();
+  List<Map<String, Object?>> results = await puzzles();
   print('found puzzles $results');
-
-
-
 
   // Future<void> makeTimeTable() async {
   //   final db = await database;
@@ -57,5 +52,4 @@ void main() async {
   //       ); ''');
   // }
   // await makeTimeTable();
-
 }

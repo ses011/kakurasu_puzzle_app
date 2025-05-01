@@ -56,7 +56,10 @@ class _GamePageState extends State<GamePage> {
               onTap: () {
                 Navigator.pop(context); // Close popup
                 Navigator.pop(context); // Close popup
-                Navigator.push(context, MaterialPageRoute(builder: (context) => GamePage()));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => GamePage()),
+                );
               },
               child: Container(
                 decoration: BoxDecoration(color: Colors.amber),
@@ -84,12 +87,13 @@ class _GamePageState extends State<GamePage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        leading: BackButton(
+        leading: IconButton(
           onPressed: () {
             t.cancel();
             stopwatch.stop();
             Navigator.pop(context);
           },
+          icon: const BackButtonIcon(),
         ),
         title: Align(
           alignment: Alignment.centerRight,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-// import 'puzzle.dart';
+import 'puzzleList.dart';
+import 'puzzle.dart';
 import 'gamePage.dart';
 
 void main() {
@@ -76,10 +77,10 @@ class _HomePageState extends State<HomePage> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => GamePage()),
-                    // );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Puzzlelist()),
+                    );
                   },
                   child: Container(
                     height: 100,

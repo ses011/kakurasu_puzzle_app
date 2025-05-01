@@ -30,6 +30,8 @@ class Puzzle {
         squares++;
       }
     }
+
+    findSums();
   }
 
   Puzzle.fromData(String puzzleString, this.scale) {
@@ -42,6 +44,7 @@ class Puzzle {
       }
       puzzle.add(row);
     }
+
     findSums();
   }
 
@@ -100,15 +103,15 @@ List<List<bool>> makeEmptyGrid(int scale) {
 }
 
 
-// void main() {
-//   Puzzle puzzle = Puzzle(6);
+void main() {
+  Puzzle puzzle = Puzzle(6);
 
 
-//   print(puzzle.puzzle);
-//   Map<String, Object?> map = puzzle.toMap();
-//   print(map);
+  print(puzzle.puzzle);
+  // Map<String, Object?> map = puzzle.toMap();
+  // print(map);
 
-//   Puzzle newPuzzle = Puzzle.fromData(map['puzzle'].toString(), int.parse(map['size'].toString()));
-//   print(newPuzzle.puzzle);
+  // Puzzle newPuzzle = Puzzle.fromData(map['puzzle'].toString(), int.parse(map['size'].toString()));
+  // print(newPuzzle.puzzle);
   // print(puzzle.sums);
-//}
+}
