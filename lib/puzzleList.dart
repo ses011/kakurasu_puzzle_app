@@ -1,11 +1,10 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import './gamePage.dart';
 import './puzzle.dart';
-import './data.dart' as Data;
+import './data.dart' as data;
 
 class Puzzlelist extends StatefulWidget {
   const Puzzlelist({super.key});
@@ -15,10 +14,10 @@ class Puzzlelist extends StatefulWidget {
 }
 
 class _PuzzlelistState extends State<Puzzlelist> {
-  List<Map<String, Object?>> puzzles = [{}];
+  List<Puzzle> puzzles = [];
 
   Future<void> getData() async {
-    puzzles = await Data.puzzles();
+    puzzles = await data.puzzles();
     setState(() {});
   }
 
@@ -53,20 +52,21 @@ class _PuzzlelistState extends State<Puzzlelist> {
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.black, width: 4),
                 ),
-                child: Row(children: [Text(index.toString())]),
+                child: Row(
+                  children: [
+                    Text(
+                      (index + 1).toString(),
+                      style: Theme.of(context).textTheme.displaySmall,
+                    ),
+                    Text("\n\t${puzzles[index].scale}x${puzzles[index].scale}"),
+                  ],
+                ),
               ),
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder:
-                        (context) => GamePage(
-                          Puzzle.fromData(
-                            puzzles[index]['puzzle'] as String,
-                            puzzles[index]['size'] as int,
-                          ),
-                          false,
-                        ),
+                    builder: (context) => GamePage(puzzles[index], false),
                   ),
                 );
               },

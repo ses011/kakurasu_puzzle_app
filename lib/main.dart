@@ -20,7 +20,10 @@ class MainApp extends StatelessWidget {
       home: HomePage(),
       theme: ThemeData(
         appBarTheme: AppBarTheme(centerTitle: false),
-        textTheme: TextTheme(displayLarge: TextStyle(color: Colors.amber)),
+        textTheme: TextTheme(
+          displayLarge: TextStyle(color: Colors.amber),
+          displaySmall: TextStyle(fontSize: 28),
+        ),
       ),
     );
   }
@@ -61,7 +64,9 @@ class _HomePageState extends State<HomePage> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => GamePage(Puzzle.random(), true)),
+                      MaterialPageRoute(
+                        builder: (context) => GamePage(Puzzle.random(), true),
+                      ),
                     );
                   },
                   child: Container(
@@ -86,7 +91,11 @@ class _HomePageState extends State<HomePage> {
                     height: 100,
                     width: 100,
                     decoration: BoxDecoration(color: Colors.lightBlueAccent),
-                    // child: Text("Speed"),
+                    child: Text(
+                      "List",
+                      style: Theme.of(context).textTheme.displayMedium,
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
               ],

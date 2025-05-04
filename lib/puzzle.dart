@@ -34,7 +34,7 @@ class Puzzle {
     findSums();
   }
 
-  Puzzle.random() : this(5);
+  Puzzle.random() : this(7);
 
   Puzzle.fromData(String puzzleString, this.scale) {
     List<String> splitRows = puzzleString.split(" ");
@@ -105,9 +105,9 @@ List<List<bool>> makeEmptyGrid(int scale) {
 }
 
 void main() {
-  // Puzzle puzzle = Puzzle.random();
+  Puzzle puzzle = Puzzle.random();
 
-  // print('puzzle: ${puzzle.toString()}');
+  print('puzzle: ${puzzle.toString()}');
   // Map<String, Object?> map = puzzle.toMap();
   // print(map);
 
