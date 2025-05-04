@@ -7,7 +7,7 @@ import 'gamePage.dart';
 void main() {
   runApp(const MainApp());
 
-  // Puzzle puzzle = Puzzle(7);
+  // Puzzle puzzle = Puzzle.random();
   // print(puzzle.puzzle);
 }
 
@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => GamePage()),
+                      MaterialPageRoute(builder: (context) => GamePage(Puzzle.random(), true)),
                     );
                   },
                   child: Container(

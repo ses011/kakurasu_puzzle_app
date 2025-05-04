@@ -7,14 +7,15 @@ import 'dart:math';
 import 'puzzle.dart';
 
 class GamePage extends StatefulWidget {
-  const GamePage({super.key});
+  final Puzzle puzzle;
+  final bool random;
+  const GamePage(this.puzzle, this.random, {super.key});
 
   @override
   State<GamePage> createState() => _GamePageState();
 }
 
 class _GamePageState extends State<GamePage> {
-  late Puzzle puzzle;
   late List<List<bool>> puzzleState;
   late Stopwatch stopwatch;
   late Timer t;
@@ -22,9 +23,11 @@ class _GamePageState extends State<GamePage> {
   @override
   void initState() {
     super.initState();
-    puzzle = Puzzle(4);
-    puzzleState = makeEmptyGrid(4);
+    puzzleState = makeEmptyGrid(widget.puzzle.scale);
 
+    print(puzzleState);
+    print(widget.puzzle);
+    
     stopwatch = Stopwatch();
     t = Timer.periodic(Duration(milliseconds: 30), (timer) {
       setState(() {});
@@ -34,8 +37,8 @@ class _GamePageState extends State<GamePage> {
   }
 
   bool checkAccuracy() {
-    for (int row = 0; row < puzzle.puzzle.length; row++) {
-      if (!listEquals(puzzle.puzzle[row], puzzleState[row])) {
+    for (int row = 0; row < widget.puzzle.puzzle.length; row++) {
+      if (!listEquals(widget.puzzle.puzzle[row], puzzleState[row])) {
         return false;
       }
     }
@@ -45,7 +48,7 @@ class _GamePageState extends State<GamePage> {
     return true;
   }
 
-  void popup() {
+  void popup(bool random) {
     showDialog<void>(
       context: (context),
       builder: (context) {
@@ -58,7 +61,7 @@ class _GamePageState extends State<GamePage> {
                 Navigator.pop(context); // Close popup
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => GamePage()),
+                  MaterialPageRoute(builder: (context) => GamePage(Puzzle.random(), true)),
                 );
               },
               child: Container(
@@ -69,7 +72,12 @@ class _GamePageState extends State<GamePage> {
             GestureDetector(
               onTap: () {
                 Navigator.pop(context); // Close popup
-                Navigator.pop(context); // Return home
+                Navigator.pop(
+                  context,
+                ); // Return home if random, goes back to list if not
+                if (!random) {
+                  Navigator.pop(context); // Return home
+                }
               },
               child: Container(
                 decoration: BoxDecoration(color: Colors.amber),
@@ -104,11 +112,11 @@ class _GamePageState extends State<GamePage> {
         padding: EdgeInsets.all(30),
         child: GridView.builder(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: puzzle.scale + 1,
+            crossAxisCount: widget.puzzle.scale + 1,
             crossAxisSpacing: 1,
             mainAxisSpacing: 1,
           ),
-          itemCount: pow((puzzle.scale + 1), 2).toInt(),
+          itemCount: pow((widget.puzzle.scale + 1), 2).toInt(),
           itemBuilder: (context, index) {
             // print("index: $index");
             // Top left corner empty
@@ -116,33 +124,33 @@ class _GamePageState extends State<GamePage> {
               return SizedBox(height: 10);
             }
             // Top row; column sums
-            else if (index <= puzzle.scale) {
+            else if (index <= widget.puzzle.scale) {
               // print(puzzle.sums[1][index - 1]);
               return SizedBox(
                 height: 10,
                 child: Text(
-                  "${puzzle.sums[1][index - 1]}",
+                  "${widget.puzzle.sums[1][index - 1]}",
                   style: Theme.of(context).textTheme.displaySmall,
                   textAlign: TextAlign.center,
                 ),
               );
             }
             // Right column; row sums
-            else if (index % (puzzle.scale + 1) == 0) {
-              int row = (index / (puzzle.scale + 1)).toInt() - 1;
+            else if (index % (widget.puzzle.scale + 1) == 0) {
+              int row = (index / (widget.puzzle.scale + 1)).toInt() - 1;
               // print("Row: $row");
               // print(puzzle.sums[0][row]);
               return SizedBox(
                 height: 10,
                 child: Text(
-                  "${puzzle.sums[0][row]}",
+                  "${widget.puzzle.sums[0][row]}",
                   style: Theme.of(context).textTheme.displaySmall,
                   textAlign: TextAlign.center,
                 ),
               );
             } else {
-              int row = (index ~/ (puzzle.scale + 1)) - 1;
-              int col = (index % (puzzle.scale + 1)) - 1;
+              int row = (index ~/ (widget.puzzle.scale + 1)) - 1;
+              int col = (index % (widget.puzzle.scale + 1)) - 1;
 
               // print("($col, $row)");
               return GestureDetector(
@@ -157,7 +165,7 @@ class _GamePageState extends State<GamePage> {
                   setState(() {
                     puzzleState[row][col] = !puzzleState[row][col];
                     if (checkAccuracy()) {
-                      popup();
+                      popup(widget.random);
                     }
                   });
                 },

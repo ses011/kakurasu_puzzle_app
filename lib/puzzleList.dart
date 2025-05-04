@@ -18,16 +18,8 @@ class _PuzzlelistState extends State<Puzzlelist> {
   List<Map<String, Object?>> puzzles = [{}];
 
   Future<void> getData() async {
-    setState(() async {
-      puzzles = await Data.puzzles();
-    });
-  }
-
-  Future<List<Map<String, Object?>>> checkPuzzles() async {
-    for (Map<String, Object?> puzzle in puzzles) {
-      if (puzzle['id'] != null) {}
-    }
-    return puzzles;
+    puzzles = await Data.puzzles();
+    setState(() {});
   }
 
   @override
@@ -50,23 +42,36 @@ class _PuzzlelistState extends State<Puzzlelist> {
           icon: const BackButtonIcon(),
         ),
       ),
-      body: FutureBuilder(
-        future: checkPuzzles(),
-        builder: (context, snapshot) {
-          return ListView.builder(
-            itemCount: puzzles.length,
-            itemBuilder: (context, index) {
-              return GestureDetector(
-                child: Container(decoration: BoxDecoration()),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => GamePage()),
-                  );
-                },
-              );
-            },
-          );
+      body: ListView.builder(
+        itemCount: puzzles.length,
+        itemBuilder: (context, index) {
+          if (puzzles.isEmpty) {
+            return SizedBox(child: Icon(Icons.leak_add_rounded));
+          } else {
+            return GestureDetector(
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black, width: 4),
+                ),
+                child: Row(children: [Text(index.toString())]),
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder:
+                        (context) => GamePage(
+                          Puzzle.fromData(
+                            puzzles[index]['puzzle'] as String,
+                            puzzles[index]['size'] as int,
+                          ),
+                          false,
+                        ),
+                  ),
+                );
+              },
+            );
+          }
         },
       ),
     );

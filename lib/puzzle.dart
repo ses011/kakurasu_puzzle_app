@@ -34,6 +34,8 @@ class Puzzle {
     findSums();
   }
 
+  Puzzle.random() : this(5);
+
   Puzzle.fromData(String puzzleString, this.scale) {
     List<String> splitRows = puzzleString.split(" ");
     for (String rowString in splitRows) {
@@ -72,6 +74,11 @@ class Puzzle {
   }
 
   Map<String, Object?> toMap() {
+    return {'puzzle': toString(), 'size': scale};
+  }
+
+  @override
+  String toString() {
     String puzzleString = "";
     for (int i = 0; i < scale; i++) {
       for (int j = 0; j < scale; j++) {
@@ -83,12 +90,7 @@ class Puzzle {
       }
       puzzleString += " ";
     }
-
-    return {'puzzle': puzzleString, 'size': scale};
-  }
-
-  String toString() {
-    return "Puzzle size $scale";
+    return puzzleString;
   }
 }
 
@@ -102,12 +104,10 @@ List<List<bool>> makeEmptyGrid(int scale) {
   return empty;
 }
 
-
 void main() {
-  Puzzle puzzle = Puzzle(6);
+  // Puzzle puzzle = Puzzle.random();
 
-
-  print(puzzle.puzzle);
+  // print('puzzle: ${puzzle.toString()}');
   // Map<String, Object?> map = puzzle.toMap();
   // print(map);
 

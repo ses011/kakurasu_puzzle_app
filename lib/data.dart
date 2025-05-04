@@ -35,21 +35,16 @@ void main() async {
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             puzzle STRING NOT NULL UNIQUE,
             size INTEGER NOT NULL
-          );''');
+          );
+          CREATE TABLE Times(
+            id REFERENCES Puzzles(id),
+            time STRING
+          );
+          ''');
     },
   );
 
   await insertPuzzle(Puzzle(7));
   List<Map<String, Object?>> results = await puzzles();
   print('found puzzles $results');
-
-  // Future<void> makeTimeTable() async {
-  //   final db = await database;
-  //   await db.execute('''
-  //       CREATE TABLE Times(
-  //         id REFERENCES Puzzles(id),
-  //         time STRING
-  //       ); ''');
-  // }
-  // await makeTimeTable();
 }
